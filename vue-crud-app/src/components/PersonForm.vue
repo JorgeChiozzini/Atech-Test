@@ -1,20 +1,21 @@
 <template>
   <div>
-    <h2>{{ isEditMode ? 'Editar Pessoa' : 'Cadastrar Pessoa' }}</h2>
+    <h1 class="title">{{ isEdit ? 'Editar Pessoa' : 'Adicionar Pessoa' }}</h1>
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="name">Nome Completo</label>
-        <input type="text" id="name" v-model="person.name" class="form-control" required />
+        <input type="text" class="form-control" v-model="person.name" required>
       </div>
       <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" v-model="person.email" class="form-control" required />
+        <label for="email">E-mail</label>
+        <input type="email" class="form-control" v-model="person.email" required>
       </div>
       <div class="form-group">
         <label for="phone">Telefone</label>
-        <input type="tel" id="phone" v-model="person.phone" class="form-control" />
+        <input type="tel" class="form-control" v-model="person.phone">
       </div>
-      <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Salvar' : 'Cadastrar' }}</button>
+      <button type="submit" class="btn btn-success mt-3">Salvar</button>
+      <button type="button" class="btn btn-secondary mt-3" @click="$router.push('/persons')">Cancelar</button>
     </form>
   </div>
 </template>
@@ -23,37 +24,56 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
+  name: 'PersonForm',
   data() {
     return {
       person: {
         name: '',
         email: '',
         phone: ''
-      },
-      isEditMode: false
+      }
     };
   },
   computed: {
+    isEdit() {
+      return !!this.$route.params.id;
+    },
     ...mapState(['persons'])
   },
   methods: {
-    ...mapActions(['addPerson', 'updatePerson', 'savePersons']),
+    ...mapActions(['addPerson', 'updatePerson']),
     handleSubmit() {
-      if (this.isEditMode) {
+      if (this.isEdit) {
         this.updatePerson(this.person);
       } else {
         this.addPerson(this.person);
       }
-      this.savePersons();
       this.$router.push('/persons');
     }
   },
   created() {
-    const personId = this.$route.params.id;
-    if (personId) {
-      this.isEditMode = true;
-      this.person = this.persons.find(person => person.id === Number(personId)) || this.person;
+    if (this.isEdit) {
+      const person = this.persons.find(p => p.id === parseInt(this.$route.params.id));
+      if (person) {
+        this.person = { ...person };
+      }
     }
   }
 };
 </script>
+
+<style>
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.btn {
+  margin-right: 0.5rem;
+}
+</style>
