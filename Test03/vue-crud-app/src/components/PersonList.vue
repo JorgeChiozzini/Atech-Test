@@ -1,20 +1,31 @@
 <template>
   <div>
     <h1 class="title">Lista de Pessoas</h1>
-    <button class="btn btn-primary mb-3" @click="$router.push('/persons/new')">Adicionar Pessoa</button>
+    <div class="mb-3">
+      <input type="text" v-model="searchQuery" placeholder="Buscar pessoa..." class="form-control" @input="searchPersons">
+    </div>
     <ul class="list-group">
-      <li v-for="person in persons" :key="person.id" class="list-group-item d-flex justify-content-between align-items-center">
+      <li v-for="person in filteredPersons" :key="person.id" class="list-group-item d-flex justify-content-between align-items-center">
         <div>
           <h5>{{ person.name }}</h5>
           <p>{{ person.email }}</p>
         </div>
         <div>
-          <button class="btn btn-secondary btn-sm" @click="$router.push(`/persons/${person.id}`)">Ver Detalhes</button>
-          <button class="btn btn-info btn-sm" @click="$router.push(`/persons/${person.id}/edit`)">Editar</button>
-          <button class="btn btn-danger btn-sm" @click="handleDelete(person.id)">Excluir</button> <!-- Chamar método handleDelete -->
+          <button class="btn btn-secondary btn-sm" @click="$router.push(`/persons/${person.id}`)">
+            <i class="fas fa-eye"></i> Ver Detalhes
+          </button>
+          <button class="btn btn-info btn-sm" @click="$router.push(`/persons/${person.id}/edit`)">
+            <i class="fas fa-edit"></i> Editar
+          </button>
+          <button class="btn btn-danger btn-sm" @click="handleDelete(person.id)">
+            <i class="fas fa-trash-alt"></i> Excluir
+          </button>
         </div>
       </li>
     </ul>
+    <button class="btn btn-primary mt-3" @click="$router.push('/persons/new')">
+      <i class="fas fa-plus"></i> Adicionar Pessoa
+    </button>
   </div>
 </template>
 
@@ -23,8 +34,19 @@ import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'PersonList',
+  data() {
+    return {
+      searchQuery: ''
+    };
+  },
   computed: {
-    ...mapState(['persons'])
+    ...mapState(['persons']),
+    filteredPersons() {
+      return this.persons.filter(person =>
+        person.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        person.email.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+    }
   },
   methods: {
     ...mapActions(['deletePerson']),
@@ -32,6 +54,10 @@ export default {
       if (confirm('Tem certeza de que deseja excluir esta pessoa?')) {
         this.deletePerson(personId);
       }
+    },
+    searchPersons() {
+      // Você pode adicionar uma ação para buscar pessoas aqui, ou apenas filtrar localmente como está sendo feito
+      // this.$store.dispatch('searchPersons', this.searchQuery);
     }
   },
   created() {

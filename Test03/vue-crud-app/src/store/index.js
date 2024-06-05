@@ -23,7 +23,7 @@ const store = createStore({
   },
   actions: {
     addPerson({ commit, dispatch }, person) {
-      person.id = Date.now(); // Simple unique ID
+      person.id = Date.now(); 
       commit('ADD_PERSON', person);
       dispatch('savePersons');
     },
