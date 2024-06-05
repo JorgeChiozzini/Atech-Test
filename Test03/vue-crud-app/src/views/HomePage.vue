@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1 class="title">Bem-vindo ao Vue CRUD App</h1>
+    <h1 class="title">Gerenciador de Pessoas</h1>
     <p>Use o menu para navegar pelas funcionalidades do aplicativo.</p>
   </div>
 </template>

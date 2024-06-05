@@ -9,6 +9,3 @@ def parenteses(str):
                 return 0
     return 1 if count == 0 else 0
 
-print(parenteses("(hello (world))"))  
-print(parenteses("((hello (world))")) 
-print(parenteses("hello world"))      

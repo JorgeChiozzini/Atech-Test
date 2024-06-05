@@ -5,6 +5,7 @@
     <p><strong>Email:</strong> {{ person.email }}</p>
     <p><strong>Telefone:</strong> {{ person.phone }}</p>
     <button @click="editPerson" class="btn btn-warning">Editar</button>
+    <router-link :to="{ name: 'PersonList' }" class="btn btn-primary">Voltar para Lista</router-link>
   </div>
 </template>
 

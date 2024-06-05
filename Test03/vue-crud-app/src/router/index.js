@@ -7,9 +7,9 @@ import PersonForm from '../views/PersonForm.vue';
 const routes = [
   { path: '/', name: 'HomePage', component: HomePage },
   { path: '/persons', name: 'PersonList', component: PersonList },
-  { path: '/persons/new', name: 'PersonForm', component: PersonForm },
+  { path: '/persons/new', name: 'PersonFormAdd', component: PersonForm },
   { path: '/persons/:id', name: 'PersonDetails', component: PersonDetails },
-  { path: '/persons/:id/edit', name: 'PersonEdit', component: PersonForm }
+  { path: '/persons/:id/edit', name: 'PersonFormEdit', component: PersonForm }
 ];
 
 const router = createRouter({
