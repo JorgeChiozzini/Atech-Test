@@ -22,15 +22,18 @@ const store = createStore({
     }
   },
   actions: {
-    addPerson({ commit }, person) {
+    addPerson({ commit, dispatch }, person) {
       person.id = Date.now(); // Simple unique ID
       commit('ADD_PERSON', person);
+      dispatch('savePersons');
     },
-    updatePerson({ commit }, person) {
+    updatePerson({ commit, dispatch }, person) {
       commit('UPDATE_PERSON', person);
+      dispatch('savePersons');
     },
-    deletePerson({ commit }, personId) {
+    deletePerson({ commit, dispatch }, personId) {
       commit('DELETE_PERSON', personId);
+      dispatch('savePersons');
     },
     fetchPersons({ commit }) {
       const persons = JSON.parse(localStorage.getItem('persons') || '[]');

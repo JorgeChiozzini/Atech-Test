@@ -11,7 +11,7 @@
         <div>
           <button class="btn btn-secondary btn-sm" @click="$router.push(`/persons/${person.id}`)">Ver Detalhes</button>
           <button class="btn btn-info btn-sm" @click="$router.push(`/persons/${person.id}/edit`)">Editar</button>
-          <button class="btn btn-danger btn-sm" @click="deletePerson(person.id)">Excluir</button>
+          <button class="btn btn-danger btn-sm" @click="handleDelete(person.id)">Excluir</button> <!-- Chamar método handleDelete -->
         </div>
       </li>
     </ul>
@@ -28,6 +28,11 @@ export default {
   },
   methods: {
     ...mapActions(['deletePerson']),
+    handleDelete(personId) {
+      if (confirm('Tem certeza de que deseja excluir esta pessoa?')) {
+        this.deletePerson(personId);
+      }
+    }
   },
   created() {
     this.$store.dispatch('fetchPersons');
