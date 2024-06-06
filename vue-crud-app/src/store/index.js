@@ -1,9 +1,4 @@
 import { createStore } from 'vuex';
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: 'http://localhost:3000'
-});
 
 const store = createStore({
   state: {
@@ -27,22 +22,25 @@ const store = createStore({
     }
   },
   actions: {
-    async addPerson({ commit }, person) {
-      const response = await api.post('/persons', person);
-      person.id = response.data.id;
+    addPerson({ commit, dispatch }, person) {
+      person.id = Date.now(); 
       commit('ADD_PERSON', person);
+      dispatch('savePersons');
     },
-    async updatePerson({ commit }, person) {
-      await api.put(`/persons/${person.id}`, person);
+    updatePerson({ commit, dispatch }, person) {
       commit('UPDATE_PERSON', person);
+      dispatch('savePersons');
     },
-    async deletePerson({ commit }, personId) {
-      await api.delete(`/persons/${personId}`);
+    deletePerson({ commit, dispatch }, personId) {
       commit('DELETE_PERSON', personId);
+      dispatch('savePersons');
     },
-    async fetchPersons({ commit }) {
-      const response = await api.get('/persons');
-      commit('SET_PERSONS', response.data);
+    fetchPersons({ commit }) {
+      const persons = JSON.parse(localStorage.getItem('persons') || '[]');
+      commit('SET_PERSONS', persons);
+    },
+    savePersons({ state }) {
+      localStorage.setItem('persons', JSON.stringify(state.persons));
     }
   }
 });
