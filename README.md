@@ -1,6 +1,6 @@
 # Vue CRUD App
 
-Este é um aplicativo de CRUD (Create, Read, Update, Delete) para o cadastro de pessoas usando Vue.js.
+Este é um aplicativo de CRUD para o cadastro de pessoas usando Vue.js.
 
 ## Como Executar
 
