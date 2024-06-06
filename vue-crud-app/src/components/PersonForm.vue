@@ -12,7 +12,7 @@
       </div>
       <div class="form-group">
         <label for="phone">Telefone</label>
-        <input type="tel" class="form-control" v-model="person.phone">
+        <input type="tel" class="form-control" v-model="person.phone" pattern="[0-9]*">
       </div>
       <button type="submit" class="btn btn-success mt-3">Salvar</button>
       <button type="button" class="btn btn-secondary mt-3" @click="$router.push('/persons')">Cancelar</button>
@@ -43,6 +43,12 @@ export default {
   methods: {
     ...mapActions(['addPerson', 'updatePerson']),
     handleSubmit() {
+      // Verifica se o número de telefone contém apenas números, se o campo não estiver vazio
+      if (this.person.phone && !/^\d+$/.test(this.person.phone)) {
+        alert("Por favor, insira somente números no campo de telefone.");
+        return;
+      }
+
       if (this.isEdit) {
         this.updatePerson(this.person);
       } else {
